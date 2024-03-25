@@ -1,2 +1,5 @@
 dependencies {
+    implementation project(':rest-domain')
+    implementation project(':rest-service')
+
 }
