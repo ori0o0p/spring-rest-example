@@ -25,8 +25,9 @@ public class ArticleAdapter implements FindArticlePort, SaveArticlePort, DeleteA
     }
 
     @Override
-    public Optional<Article> findById(Long id) {
-        return articleRepository.findById(id);
+    public Article findById(Long id) {
+        return articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("404 Not Found"));
     }
 
     @Override

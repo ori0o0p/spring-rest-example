@@ -3,7 +3,6 @@ package rest.project.domain.article.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import rest.project.domain.article.dto.DetailArticleResponse;
-import rest.project.domain.article.model.Article;
 import rest.project.domain.article.port.FindArticlePort;
 import rest.project.domain.article.usecase.FindArticleUseCase;
 
@@ -16,9 +15,9 @@ public class FindArticleService implements FindArticleUseCase {
 
     @Override
     public DetailArticleResponse findById(Long id) {
-        return findArticlePort.findById(id)
-                .map(DetailArticleResponse::from)
-                .orElseThrow(() -> new RuntimeException("404 Not Found"));
+        return DetailArticleResponse.from(
+                findArticlePort.findById(id)
+        );
     }
 
     @Override

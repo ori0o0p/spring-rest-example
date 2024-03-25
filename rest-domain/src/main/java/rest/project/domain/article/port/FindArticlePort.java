@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface FindArticlePort {
 
-    Optional<Article> findById(Long id);
+    Article findById(Long id);
     List<Article> findAll();
     List<Article> findAllByTextContaining(String text);
 
