@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import rest.project.domain.article.dto.DetailArticleResponse;
 import rest.project.domain.article.port.FindArticlePort;
 import rest.project.domain.article.usecase.FindArticleUseCase;
+import rest.project.domain.comment.model.Comment;
+import rest.project.domain.comment.port.FindCommentPort;
 
 import java.util.List;
 
@@ -12,11 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FindArticleService implements FindArticleUseCase {
     private final FindArticlePort findArticlePort;
+    private final FindCommentPort findCommentPort;
 
     @Override
     public DetailArticleResponse findById(Long id) {
         return DetailArticleResponse.from(
-                findArticlePort.findById(id)
+                findArticlePort.findById(id),
+                findCommentPort.findAllByArticle(id)
         );
     }
 
@@ -24,7 +28,10 @@ public class FindArticleService implements FindArticleUseCase {
     public List<DetailArticleResponse> findAll() {
         return findArticlePort.findAll()
                 .stream()
-                .map(DetailArticleResponse::from)
+                .map(article -> {
+                    List<Comment> comments = findCommentPort.findAllByArticle(article.getId());
+                    return DetailArticleResponse.from(article, comments);
+                })
                 .toList();
     }
 
@@ -32,7 +39,10 @@ public class FindArticleService implements FindArticleUseCase {
     public List<DetailArticleResponse> findAllByTextContaining(String text) {
         return findArticlePort.findAllByTextContaining(text)
                 .stream()
-                .map(DetailArticleResponse::from)
+                .map(article -> {
+                    List<Comment> comments = findCommentPort.findAllByArticle(article.getId());
+                    return DetailArticleResponse.from(article, comments);
+                })
                 .toList();
     }
 
