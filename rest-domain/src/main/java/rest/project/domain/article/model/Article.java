@@ -1,12 +1,14 @@
 package rest.project.domain.article.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 
+import java.time.LocalDateTime;
+
+@Getter
 @Entity(name = "article")
+@Table(name = "article")
 public class Article {
 
     @Id
@@ -17,31 +19,25 @@ public class Article {
 
     private String content;
 
+    private LocalDateTime createdAt;
 
-    public Article() {
+    private LocalDateTime updatedAt;
+
+
+    protected Article() {
     }
 
     @Builder
     public Article(String title, String content) {
         this.title = title;
         this.content = content;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
+        this.createdAt = this.updatedAt = LocalDateTime.now();
     }
 
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
+        this.updatedAt = LocalDateTime.now();
     }
 
 }
