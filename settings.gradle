@@ -1,2 +1,3 @@
 rootProject.name = 'spring-rest-example'
-include 'rest-domain', 'rest-api', 'rest-service'
+include 'rest-domain', 'rest-api', 'rest-service', 'rest-auth'
+
