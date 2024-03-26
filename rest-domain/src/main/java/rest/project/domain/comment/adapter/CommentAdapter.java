@@ -1,5 +1,6 @@
 package rest.project.domain.comment.adapter;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import rest.project.domain.comment.dao.CommentRepository;
@@ -11,7 +12,7 @@ import rest.project.domain.comment.port.FindCommentPort;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.MODULE)
 public class CommentAdapter implements SaveCommentPort, DeleteCommentPort, FindCommentPort {
     private final CommentRepository commentRepository;
 

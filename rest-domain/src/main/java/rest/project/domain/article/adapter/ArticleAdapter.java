@@ -1,5 +1,6 @@
 package rest.project.domain.article.adapter;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import rest.project.domain.article.dao.ArticleRepository;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.MODULE)
 public class ArticleAdapter implements FindArticlePort, SaveArticlePort, DeleteArticlePort {
     private final ArticleRepository articleRepository;
 
