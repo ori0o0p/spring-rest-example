@@ -1,3 +1,4 @@
 dependencies {
     implementation project(':rest-domain')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
