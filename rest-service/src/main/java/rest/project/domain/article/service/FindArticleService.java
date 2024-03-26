@@ -30,10 +30,10 @@ public class FindArticleService implements FindArticleUseCase {
     public List<DetailArticleResponse> findAll() {
         return findArticlePort.findAll()
                 .stream()
-                .map(article -> {
-                    List<Comment> comments = findCommentPort.findAllByArticle(article.getId());
-                    return DetailArticleResponse.from(article, comments);
-                })
+                .map(article -> DetailArticleResponse.from(
+                        article,
+                        findCommentPort.findAllByArticle(article.getId())
+                ))
                 .toList();
     }
 
@@ -41,10 +41,10 @@ public class FindArticleService implements FindArticleUseCase {
     public List<DetailArticleResponse> findAllByTextContaining(String text) {
         return findArticlePort.findAllByTextContaining(text)
                 .stream()
-                .map(article -> {
-                    List<Comment> comments = findCommentPort.findAllByArticle(article.getId());
-                    return DetailArticleResponse.from(article, comments);
-                })
+                .map(article -> DetailArticleResponse.from(
+                        article,
+                        findCommentPort.findAllByArticle(article.getId())
+                ))
                 .toList();
     }
 
