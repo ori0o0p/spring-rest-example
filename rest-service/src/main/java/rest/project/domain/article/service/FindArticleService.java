@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FindArticleService implements FindArticleUseCase {
     private final FindArticlePort findArticlePort;
-    private final FindCommentPort findCommentPort;
 
     @Override
     public DetailArticleResponse findById(Long id) {
@@ -34,8 +33,8 @@ public class FindArticleService implements FindArticleUseCase {
     }
 
     @Override
-    public List<DetailArticleResponse> findAllByTextContaining(String text) {
-        return findArticlePort.findAllByTextContaining(text)
+    public List<DetailArticleResponse> search(String text) {
+        return findArticlePort.search(text)
                 .stream()
                 .map(DetailArticleResponse::from)
                 .toList();

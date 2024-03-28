@@ -8,6 +8,6 @@ import java.util.List;
 public interface FindArticleUseCase {
     DetailArticleResponse findById(Long id);
     List<DetailArticleResponse> findAll();
-    List<DetailArticleResponse> findAllByTextContaining(String text);
+    List<DetailArticleResponse> search(String text);
 
 }

@@ -9,6 +9,6 @@ public interface FindArticlePort {
 
     Article findById(Long id);
     List<Article> findAll();
-    List<Article> findAllByTextContaining(String text);
+    List<Article> search(String text);
 
 }

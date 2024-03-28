@@ -37,8 +37,8 @@ public class ArticleAdapter implements FindArticlePort, SaveArticlePort, DeleteA
     }
 
     @Override
-    public List<Article> findAllByTextContaining(String text) {
-        return articleRepository.findAllByTextContaining(text);
+    public List<Article> search(String text) {
+        return articleRepository.search(text);
     }
 
     @Override
