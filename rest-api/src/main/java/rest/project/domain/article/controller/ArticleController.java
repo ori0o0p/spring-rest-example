@@ -68,12 +68,12 @@ public class ArticleController {
     public CollectionModel<DetailArticleResponse> search(@RequestParam String text) {
         List<DetailArticleResponse> articleList = findArticleUseCase.search(text);
 
-        Link selfLink = WebMvcLinkBuilder.linkTo(
+        Link methodLink = WebMvcLinkBuilder.linkTo(
                         methodOn(ArticleController.class).search(text)
                 ).withSelfRel();
 
-        Link self = Link.of(
-                URLDecoder.decode(selfLink.getHref(), StandardCharsets.UTF_8),
+        Link selfLink = Link.of(
+                URLDecoder.decode(methodLink.getHref(), StandardCharsets.UTF_8),
                 LinkRelation.of("self")
         );
 
@@ -83,7 +83,7 @@ public class ArticleController {
 
         return CollectionModel.of(
                 articleList,
-                self,
+                selfLink,
                 parentLink
         );
     }
