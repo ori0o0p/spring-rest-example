@@ -1,4 +1,4 @@
-package rest.project;
+package rest.project.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
