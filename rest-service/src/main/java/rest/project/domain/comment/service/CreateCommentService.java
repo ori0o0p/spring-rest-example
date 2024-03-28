@@ -9,6 +9,8 @@ import rest.project.domain.comment.dto.CreateCommentRequest;
 import rest.project.domain.comment.model.Comment;
 import rest.project.domain.comment.port.SaveCommentPort;
 import rest.project.domain.comment.usecase.CreateCommentUseCase;
+import rest.project.domain.user.model.User;
+import rest.project.domain.user.service.CurrentUser;
 
 @Service
 @Transactional
@@ -16,15 +18,18 @@ import rest.project.domain.comment.usecase.CreateCommentUseCase;
 public class CreateCommentService implements CreateCommentUseCase {
     private final SaveCommentPort saveCommentPort;
     private final FindArticlePort findArticlePort;
+    private final CurrentUser currentUser;
 
     @Override
     public void create(CreateCommentRequest request, Long articleId) {
         Article article = findArticlePort.findById(articleId);
+        User user = currentUser.execute();
 
         saveCommentPort.save(
                 Comment.builder()
                         .content(request.content())
                         .article(article)
+                        .user(user)
                         .build()
         );
     }
