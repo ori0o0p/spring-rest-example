@@ -1,0 +1,9 @@
+jar.enabled = false
+bootJar.enabled = true
+
+dependencies {
+    implementation project(':rest-domain')
+    implementation project(':rest-auth')
+    implementation project(':rest-api')
+    implementation project(':rest-service')
+}
