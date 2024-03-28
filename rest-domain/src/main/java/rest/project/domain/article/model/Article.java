@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import rest.project.domain.comment.model.Comment;
+import rest.project.domain.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,13 +36,18 @@ public class Article {
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     protected Article() {
     }
 
     @Builder
-    public Article(String title, String content) {
+    public Article(String title, String content, User user) {
         this.title = title;
         this.content = content;
+        this.user = user;
     }
 
     public void update(String title, String content) {
