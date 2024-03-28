@@ -21,10 +21,16 @@ public class UserAdapter implements SaveUserPort, DeleteUserPort, FindUserPort {
     @Override
     public User save(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("400 user exists");
+            throw new RuntimeException("400 User Exists");
         } else {
             return userRepository.save(user);
         }
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("404 User Not Found"));
     }
 
 }
