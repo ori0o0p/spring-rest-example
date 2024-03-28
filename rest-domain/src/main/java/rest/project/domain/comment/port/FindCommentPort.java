@@ -7,5 +7,6 @@ import java.util.List;
 public interface FindCommentPort {
 
     List<Comment> findAllByArticle(Long articleId);
+    Comment findById(Long id);
 
 }
