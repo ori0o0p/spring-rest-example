@@ -20,14 +20,14 @@ public record DetailArticleResponse(
         /* other.. */
 ) {
 
-    public static DetailArticleResponse from(Article article, List<Comment> comments) {
+    public static DetailArticleResponse from(Article article) {
         return DetailArticleResponse.builder()
                 .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
-                .comments(comments)
+                .comments(article.getComments())
                 .build();
     }
 
