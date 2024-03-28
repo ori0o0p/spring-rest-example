@@ -3,8 +3,11 @@ package rest.project.domain.article.model;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import rest.project.domain.comment.model.Comment;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity(name = "article")
@@ -23,6 +26,8 @@ public class Article {
 
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     protected Article() {
     }
