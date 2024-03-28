@@ -4,13 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import rest.project.domain.article.dto.CreateArticleRequest;
 import rest.project.domain.article.dto.DetailArticleResponse;
 import rest.project.domain.article.model.ArticleModel;
@@ -65,11 +60,13 @@ public class ArticleController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody CreateArticleRequest request) {
         createArticleUseCase.create(request);
     }
 
     @DeleteMapping("/{articleId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long articleId) {
         deleteArticleUseCase.deleteById(articleId);
     }
