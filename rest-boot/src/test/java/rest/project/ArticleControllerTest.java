@@ -1,26 +1,14 @@
-package rest.project.controller;
+package rest.project;
 
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.verify;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import rest.project.domain.article.controller.ArticleController;
 import rest.project.domain.article.dto.CreateArticleRequest;
 import rest.project.domain.article.dto.DetailArticleResponse;
@@ -28,7 +16,21 @@ import rest.project.domain.article.usecase.CreateArticleUseCase;
 import rest.project.domain.article.usecase.DeleteArticleUseCase;
 import rest.project.domain.article.usecase.FindArticleUseCase;
 
-@WebMvcTest(ArticleController.class)
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.Matchers.is;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(
+        controllers = ArticleController.class,
+        excludeAutoConfiguration = SecurityAutoConfiguration.class
+)
 public class ArticleControllerTest {
 
     @Autowired
@@ -73,13 +75,26 @@ public class ArticleControllerTest {
     }
 
     @Test
+    public void 게시물_검색() throws Exception {
+        String text = "제목";
+        List<DetailArticleResponse> articleList = new ArrayList<>();
+        articleList.add(new DetailArticleResponse(1L, "제목", "내용", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>()));
+        articleList.add(new DetailArticleResponse(2L, "제목", "내용", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>()));
+        given(findArticleUseCase.search(text)).willReturn(articleList);
+
+        mockMvc.perform(get("/api/articles/search?text={text}", text))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.self.href", is(BASE_URL + "/articles/search?text=" + text)));
+    }
+
+    @Test
     public void 게시물_생성() throws Exception {
         CreateArticleRequest request = new CreateArticleRequest("제목", "내용");
 
         mockMvc.perform(post("/api/articles")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         verify(createArticleUseCase).create(request);
     }
@@ -89,7 +104,7 @@ public class ArticleControllerTest {
         Long articleId = 1L;
 
         mockMvc.perform(delete("/api/articles/{articleId}", articleId))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         verify(deleteArticleUseCase).deleteById(articleId);
     }
