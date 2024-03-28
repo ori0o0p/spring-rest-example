@@ -31,4 +31,10 @@ public class CommentAdapter implements SaveCommentPort, DeleteCommentPort, FindC
         return commentRepository.findAllByArticle_IdOrderByCreatedAtDesc(articleId);
     }
 
+    @Override
+    public Comment findById(Long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("404 Comment Not Found"));
+    }
+
 }
