@@ -21,8 +21,7 @@ public class FindArticleService implements FindArticleUseCase {
     @Override
     public DetailArticleResponse findById(Long id) {
         return DetailArticleResponse.from(
-                findArticlePort.findById(id),
-                findCommentPort.findAllByArticle(id)
+                findArticlePort.findById(id)
         );
     }
 
@@ -30,10 +29,7 @@ public class FindArticleService implements FindArticleUseCase {
     public List<DetailArticleResponse> findAll() {
         return findArticlePort.findAll()
                 .stream()
-                .map(article -> DetailArticleResponse.from(
-                        article,
-                        findCommentPort.findAllByArticle(article.getId())
-                ))
+                .map(DetailArticleResponse::from)
                 .toList();
     }
 
@@ -41,10 +37,7 @@ public class FindArticleService implements FindArticleUseCase {
     public List<DetailArticleResponse> findAllByTextContaining(String text) {
         return findArticlePort.findAllByTextContaining(text)
                 .stream()
-                .map(article -> DetailArticleResponse.from(
-                        article,
-                        findCommentPort.findAllByArticle(article.getId())
-                ))
+                .map(DetailArticleResponse::from)
                 .toList();
     }
 
