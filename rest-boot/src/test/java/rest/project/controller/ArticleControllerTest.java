@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -48,10 +49,10 @@ public class ArticleControllerTest {
 
     @Test
     public void 전체_게시물_조회시_self_링크_반환_검사() throws Exception {
-        List<DetailArticleResponse> articleList = new ArrayList<>();
-        articleList.add(new DetailArticleResponse(1L, "제목 1", "내용 1", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>()));
-        articleList.add(new DetailArticleResponse(2L, "제목 2", "내용 2", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>()));
-
+        List<DetailArticleResponse> articleList = List.of(
+                new DetailArticleResponse(1L, "제목", "내용", LocalDateTime.now(), LocalDateTime.now(), List.of()),
+                new DetailArticleResponse(2L, "제목", "내용", LocalDateTime.now(), LocalDateTime.now(), List.of())
+        );
         given(findArticleUseCase.findAll()).willReturn(articleList);
 
         mockMvc.perform(get("/api/articles"))
@@ -63,7 +64,7 @@ public class ArticleControllerTest {
     @Test
     public void 게시물_조회시_self_링크_parent_링크_반환_검사() throws Exception {
         Long articleId = 1L;
-        DetailArticleResponse detailArticleResponse = new DetailArticleResponse(articleId, "제목", "내용", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>());
+        DetailArticleResponse detailArticleResponse = new DetailArticleResponse(articleId, "제목", "내용", LocalDateTime.now(), LocalDateTime.now(), List.of());
         given(findArticleUseCase.findById(articleId)).willReturn(detailArticleResponse);
 
         mockMvc.perform(get("/api/articles/{articleId}", articleId))
@@ -76,12 +77,15 @@ public class ArticleControllerTest {
     @Test
     public void 게시물_검색() throws Exception {
         String text = "제목";
-        List<DetailArticleResponse> articleList = new ArrayList<>();
-        articleList.add(new DetailArticleResponse(1L, "제목", "내용", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>()));
-        articleList.add(new DetailArticleResponse(2L, "제목", "내용", LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>()));
-        given(findArticleUseCase.search(text)).willReturn(articleList);
+        List<DetailArticleResponse> articleList = List.of(
+                new DetailArticleResponse(1L, text, "내용", LocalDateTime.now(), LocalDateTime.now(), List.of()),
+                new DetailArticleResponse(2L, text, "내용", LocalDateTime.now(), LocalDateTime.now(), List.of())
+        );
+        given(findArticleUseCase.search(text))
+                .willReturn(articleList);
 
-        mockMvc.perform(get("/api/articles/search?text={text}", text))
+        mockMvc.perform(get("/api/articles/search")
+                        .param("text", text))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._links.self.href", is(BASE_URL + "/articles/search?text=" + text)));
     }
