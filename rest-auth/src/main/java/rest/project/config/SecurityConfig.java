@@ -27,7 +27,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityWebFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -37,8 +37,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(new TokenFilter(tokenizer), UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .addFilterBefore(new TokenFilter(tokenizer), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
