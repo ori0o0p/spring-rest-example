@@ -1,5 +1,6 @@
 package rest.project.domain.comment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,8 @@ public class Comment {
     private String content;
 
     @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "article_id")
     private Article article;
 
     private LocalDateTime createdAt;
