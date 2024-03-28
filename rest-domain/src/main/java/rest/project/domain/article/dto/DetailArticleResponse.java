@@ -3,7 +3,10 @@ package rest.project.domain.article.dto;
 import lombok.Builder;
 import org.springframework.hateoas.server.core.Relation;
 import rest.project.domain.article.model.Article;
+import rest.project.domain.comment.dto.CommentResponse;
 import rest.project.domain.comment.model.Comment;
+import rest.project.domain.user.dto.UserResponse;
+import rest.project.domain.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +19,8 @@ public record DetailArticleResponse(
         String content,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        List<Comment> comments
+        List<CommentResponse> comments,
+        UserResponse writer
         /* other.. */
 ) {
 
@@ -27,7 +31,8 @@ public record DetailArticleResponse(
                 .content(article.getContent())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
-                .comments(article.getComments())
+                .comments(article.getComments().stream().map(CommentResponse::from).toList())
+                .writer(UserResponse.from(article.getUser()))
                 .build();
     }
 
