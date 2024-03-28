@@ -16,9 +16,11 @@ public class User {
 
     private String name;
 
+    @Column(length = 100, nullable = false, unique = true)
     private String email;
 
     @JsonIgnore
+    @Column(length = 100, nullable = false)
     private String password;
 
     protected User() {
@@ -28,7 +30,7 @@ public class User {
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
-        this.password = password;
+        setPassword(password);
     }
 
     public void setPassword(String password) {
