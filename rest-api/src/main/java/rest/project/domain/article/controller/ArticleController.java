@@ -3,6 +3,7 @@ package rest.project.domain.article.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.LinkRelation;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,11 @@ import rest.project.domain.article.usecase.CreateArticleUseCase;
 import rest.project.domain.article.usecase.DeleteArticleUseCase;
 import rest.project.domain.article.usecase.FindArticleUseCase;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequiredArgsConstructor
@@ -63,9 +68,14 @@ public class ArticleController {
     public CollectionModel<DetailArticleResponse> search(@RequestParam String text) {
         List<DetailArticleResponse> articleList = findArticleUseCase.search(text);
 
-        Link selfLink = WebMvcLinkBuilder
-                .linkTo(ArticleController.class)
-                .withSelfRel();
+        Link selfLink = WebMvcLinkBuilder.linkTo(
+                        methodOn(ArticleController.class).search(text)
+                ).withSelfRel();
+
+        Link self = Link.of(
+                URLDecoder.decode(selfLink.getHref(), StandardCharsets.UTF_8),
+                LinkRelation.of("self")
+        );
 
         Link parentLink = WebMvcLinkBuilder
                 .linkTo(ArticleController.class)
@@ -73,7 +83,7 @@ public class ArticleController {
 
         return CollectionModel.of(
                 articleList,
-                selfLink,
+                self,
                 parentLink
         );
     }
