@@ -59,6 +59,25 @@ public class ArticleController {
         );
     }
 
+    @GetMapping("/search")
+    public CollectionModel<DetailArticleResponse> search(@RequestParam String text) {
+        List<DetailArticleResponse> articleList = findArticleUseCase.search(text);
+
+        Link selfLink = WebMvcLinkBuilder
+                .linkTo(ArticleController.class)
+                .withSelfRel();
+
+        Link parentLink = WebMvcLinkBuilder
+                .linkTo(ArticleController.class)
+                .withRel("parent");
+
+        return CollectionModel.of(
+                articleList,
+                selfLink,
+                parentLink
+        );
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody CreateArticleRequest request) {
