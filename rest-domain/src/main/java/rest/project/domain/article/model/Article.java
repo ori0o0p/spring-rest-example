@@ -6,11 +6,12 @@ import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import rest.project.domain.comment.model.Comment;
+import rest.project.domain.like.model.Like;
+import rest.project.domain.tag.model.tagmap.TagMap;
 import rest.project.domain.user.model.User;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Entity(name = "article")
@@ -39,6 +40,12 @@ public class Article {
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<TagMap> tagMaps = new HashSet<>();
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Like> likes = new HashSet<>();
 
     protected Article() {
     }
