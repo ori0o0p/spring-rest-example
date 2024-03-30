@@ -6,8 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import rest.project.domain.article.dto.DetailArticleResponse;
 import rest.project.domain.article.port.FindArticlePort;
 import rest.project.domain.article.usecase.FindArticleUseCase;
-import rest.project.domain.comment.model.Comment;
-import rest.project.domain.comment.port.FindCommentPort;
 
 import java.util.List;
 
