@@ -7,8 +7,8 @@ import rest.project.domain.article.model.Article;
 import rest.project.domain.user.model.User;
 
 @Getter
-@Entity(name = "likes")
-@Table(name = "likes")
+@Entity(name = "article_like")
+@Table(name = "article_like")
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
