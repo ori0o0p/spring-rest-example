@@ -6,7 +6,7 @@ import rest.project.domain.like.model.Like;
 import rest.project.domain.like.port.DeleteLikePort;
 import rest.project.domain.like.port.FindLikePort;
 import rest.project.domain.like.port.SaveLikePort;
-import rest.project.domain.like.repository.LikeRepository;
+import rest.project.domain.like.dao.LikeRepository;
 
 @Component
 @RequiredArgsConstructor

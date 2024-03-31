@@ -6,7 +6,7 @@ import rest.project.domain.tag.model.Tag;
 import rest.project.domain.tag.port.DeleteTagPort;
 import rest.project.domain.tag.port.FindTagPort;
 import rest.project.domain.tag.port.SaveTagPort;
-import rest.project.domain.tag.repository.TagRepository;
+import rest.project.domain.tag.dao.TagRepository;
 
 import java.util.Optional;
 import java.util.Set;

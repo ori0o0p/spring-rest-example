@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import rest.project.domain.tag.model.tagmap.TagMap;
 import rest.project.domain.tag.port.tagmap.FindTagMapPort;
 import rest.project.domain.tag.port.tagmap.SaveTagMapPort;
-import rest.project.domain.tag.repository.tagmap.TagMapRepository;
+import rest.project.domain.tag.dao.tagmap.TagMapRepository;
 
 import java.util.List;
 import java.util.Set;

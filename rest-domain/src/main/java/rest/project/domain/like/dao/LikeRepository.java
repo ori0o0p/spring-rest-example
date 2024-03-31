@@ -1,4 +1,4 @@
-package rest.project.domain.like.repository;
+package rest.project.domain.like.dao;
 
 import org.springframework.data.repository.CrudRepository;
 import rest.project.domain.like.model.Like;

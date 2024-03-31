@@ -1,4 +1,4 @@
-package rest.project.domain.tag.repository.tagmap;
+package rest.project.domain.tag.dao.tagmap;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import rest.project.domain.tag.model.tagmap.TagMap;
