@@ -4,6 +4,7 @@ import lombok.Builder;
 import org.springframework.hateoas.server.core.Relation;
 import rest.project.domain.article.model.Article;
 import rest.project.domain.comment.dto.CommentResponse;
+import rest.project.domain.like.dto.LikeResponse;
 import rest.project.domain.tag.dto.TagResponse;
 import rest.project.domain.tag.model.tagmap.TagMap;
 import rest.project.domain.user.dto.UserResponse;
@@ -23,7 +24,8 @@ public record DetailArticleResponse(
         LocalDateTime updatedAt,
         List<CommentResponse> comments,
         UserResponse writer,
-        Set<TagResponse> tags
+        Set<TagResponse> tags,
+        LikeResponse likeInfo
         /* other.. */
 ) {
 
@@ -37,6 +39,7 @@ public record DetailArticleResponse(
                 .comments(article.getComments().stream().map(CommentResponse::from).toList())
                 .writer(UserResponse.from(article.getUser()))
                 .tags(article.getTagMaps().stream().map(TagMap::getTag).map(TagResponse::from).collect(Collectors.toUnmodifiableSet()))
+                .likeInfo(LikeResponse.of(article.getLikes()))
                 .build();
     }
 
