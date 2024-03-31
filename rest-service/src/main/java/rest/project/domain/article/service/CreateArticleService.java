@@ -43,15 +43,10 @@ public class CreateArticleService implements CreateArticleUseCase {
 
     private void saveTags(Article article, Set<String> tags) {
         Set<TagMap> tagMaps = new HashSet<>();
-        Set<Tag> newTags = new HashSet<>();
 
         tags.forEach(tagId -> {
             Tag tag = findTagPort.findById(tagId)
-                    .orElseGet(() -> {
-                        Tag newTag = new Tag(tagId);
-                        newTags.add(newTag);
-                        return newTag;
-                    });
+                    .orElseGet(() -> saveTagPort.save(new Tag(tagId)));
 
             tagMaps.add(TagMap.builder()
                     .article(article)
@@ -59,7 +54,6 @@ public class CreateArticleService implements CreateArticleUseCase {
                     .build());
         });
 
-        saveTagPort.saveAll(newTags);
         saveTagMapPort.saveAll(tagMaps);
     }
 
