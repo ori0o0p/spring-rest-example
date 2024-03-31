@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import rest.project.domain.article.dto.CreateArticleRequest;
 import rest.project.domain.article.dto.DetailArticleResponse;
-import rest.project.domain.article.model.ArticleModel;
+import rest.project.domain.article.dto.ArticleResponseModel;
 import rest.project.domain.article.usecase.CreateArticleUseCase;
 import rest.project.domain.article.usecase.DeleteArticleUseCase;
 import rest.project.domain.article.usecase.FindArticleUseCase;
@@ -29,8 +29,8 @@ public class ArticleController {
     private final DeleteArticleUseCase deleteArticleUseCase;
 
     @GetMapping("/{articleId}")
-    public ArticleModel findById(@PathVariable Long articleId) {
-        ArticleModel articleModel = new ArticleModel(
+    public ArticleResponseModel findById(@PathVariable Long articleId) {
+        ArticleResponseModel articleResponseModel = new ArticleResponseModel(
                 findArticleUseCase.findById(articleId)
         );
 
@@ -39,15 +39,15 @@ public class ArticleController {
                 .slash(articleId)
                 .withSelfRel();
 
-        articleModel.add(self);
+        articleResponseModel.add(self);
 
         Link parentLink = WebMvcLinkBuilder
                 .linkTo(ArticleController.class)
                 .withRel("parent");
 
-        articleModel.add(parentLink);
+        articleResponseModel.add(parentLink);
 
-        return articleModel;
+        return articleResponseModel;
     }
 
     @GetMapping

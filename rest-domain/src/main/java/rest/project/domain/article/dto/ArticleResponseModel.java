@@ -1,12 +1,11 @@
-package rest.project.domain.article.model;
+package rest.project.domain.article.dto;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.springframework.hateoas.RepresentationModel;
-import rest.project.domain.article.dto.DetailArticleResponse;
 
-public class ArticleModel extends RepresentationModel<ArticleModel> {
+public class ArticleResponseModel extends RepresentationModel<ArticleResponseModel> {
 
-    public ArticleModel(DetailArticleResponse detailArticleResponse) {
+    public ArticleResponseModel(DetailArticleResponse detailArticleResponse) {
         this.detailArticleResponse = detailArticleResponse;
     }
 
