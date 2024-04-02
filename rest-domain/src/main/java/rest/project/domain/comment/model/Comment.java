@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity(name = "comment")
 @Table(name = "comment")
 public class Comment {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
