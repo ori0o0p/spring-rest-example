@@ -22,7 +22,7 @@ public class CreateCommentService implements CreateCommentUseCase {
 
     @Override
     public void create(CreateCommentRequest request, Long articleId) {
-        Article article = findArticlePort.findById(articleId);
+        Article article = findArticlePort.getReferenceById(articleId);
         User user = currentUser.execute();
 
         saveCommentPort.save(

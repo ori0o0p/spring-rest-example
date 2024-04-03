@@ -10,5 +10,6 @@ public interface FindArticlePort {
     Article findById(Long id);
     List<Article> findAll();
     List<Article> search(String text);
+    Article getReferenceById(Long id);
 
 }

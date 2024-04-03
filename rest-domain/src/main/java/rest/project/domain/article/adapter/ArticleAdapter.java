@@ -42,6 +42,11 @@ public class ArticleAdapter implements FindArticlePort, SaveArticlePort, DeleteA
     }
 
     @Override
+    public Article getReferenceById(Long id) {
+        return articleRepository.getReferenceById(id);
+    }
+
+    @Override
     public Article save(Article article) {
         return articleRepository.save(article);
     }
