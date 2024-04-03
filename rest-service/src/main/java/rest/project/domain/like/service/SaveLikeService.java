@@ -19,7 +19,7 @@ public class SaveLikeService implements SaveLikeUseCase {
 
     @Override
     public void save(Long articleId) {
-        Article article = findArticlePort.findById(articleId);
+        Article article = findArticlePort.getReferenceById(articleId);
         User user = currentUser.execute();
 
         saveLikePort.save(
