@@ -18,7 +18,7 @@ public class FindArticleService implements FindArticleUseCase {
     @Override
     public DetailArticleResponse findById(Long id) {
         return DetailArticleResponse.from(
-                findArticlePort.getReferenceById(id)
+                findArticlePort.findById(id)
         );
     }
 
